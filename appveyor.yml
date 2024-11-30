@@ -1,0 +1,28 @@
+image:
+- Visual Studio 2019
+- macOS
+- Ubuntu
+
+skip_branch_with_pr: true
+stack: python 3.10
+
+build_script:
+- flet pack src/main.py --name todo --icon src/assets/icon.png --product-name todo --product-version "1.0.0" --copyright "Copyright (c) 2022 YourCompany Inc."
+
+test: off
+
+# Publish artifacts to GitHub Releases on "tag" builds
+
+#
+#   Linux package
+# 
+-
+  matrix:
+    only:
+    - image: Ubuntu
+
+  after_build:
+  - tar -czvf todo-linux.tar.gz -C dist todo
+
+  artifacts:
+  - path: todo-linux.tar.gz
